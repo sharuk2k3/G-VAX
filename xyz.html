@@ -1,0 +1,523 @@
+<head>
+    <title>G-VAX</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        * {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        }
+
+        .faqs {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
+
+        .active,
+        .faqs:hover {
+            background-color: #ccc;
+        }
+
+        .panel {
+            text-align: left;
+            padding: 0 18px;
+            display: none;
+            background-color: white;
+            overflow: hidden;
+        }
+
+        div.a {
+            height: auto;
+            border: 3px solid rgb(192, 36, 36);
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            border: 3px solid rgb(192, 36, 36);
+        }
+
+        td,
+        th {
+            border: 1px solid #3a209b;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+        .left {
+            left: 0;
+            background-color: rgb(166, 245, 212);
+        }
+
+        .right {
+            right: 0;
+            background-color: rgb(221, 97, 97);
+        }
+
+        .carousel-inner img {
+            width: 80%;
+            padding-left: 20%;
+            max-height: 700px;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body style="height:2000px">
+    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form div class="modal-body mx-3" method="POST" action="login.php">
+                    <div class="md-form mb-5">
+                        <i class="fas fa-envelope prefix grey-text"></i>
+                        <input type="email" id="defaultForm-email" class="form-control validate">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Your
+                            email</label>
+                    </div>
+
+                    <div class="md-form mb-4">
+                        <i class="fas fa-lock prefix grey-text"></i>
+                        <input type="password" id="defaultForm-pass" class="form-control validate">
+                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Your
+                            password</label>
+                    </div>
+
+                </form>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-default">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--nav-->
+    <ul class="container-fluid navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+        <!-- Brand/logo -->
+        <a class="navbar-brand" href="#"><img src="#" alt="Logo" style="width:40px;"></a>
+
+        <!-- Links -->
+        <ul class="nav nav-pills" role="tablist">
+            <li class=" nav-item">
+                <a class="nav-link active" data-toggle="pill" href="#aboutus">ABOUT US</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#importance"">IMPORTANCE OF VACCINE</a>
+            </li>
+            <li class=" nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#age">VACCINES FOR AGE GROUPS</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#">HOSPITALS PROVIDING VACCINE</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#">CONTACT US</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">SEARCH</a>
+            </li>
+            <li class="nav-item justify-content-end" style="float: right;">
+                <a class="nav-link" href="#">
+                    <P id="google_translate_element"></P>
+                </a>
+            </li>
+
+
+
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="" class="btn btn-black btn-rounded mb-4" data-toggle="modal"
+                        data-target="#modalLoginForm">LOGIN</a></li>
+                <li><a href="" class="btn btn-black btn-rounded mb-4" data-toggle="modal"
+                        data-target="#modalRegisterForm">SIGN UP</a></li>
+            </ul>
+        </ul>
+    </ul>
+    <div class="row" style=" margin-top:93px;">
+        <div class="col-sm-2">
+            <h3>Helpline |</h3>
+        </div>
+        <div class="col-sm-2">Number<br><a href="tel:91-11-23978046">91-11-23978046</a></div>
+        <div class="col-sm-2">Health Ministry<br><a href="tel:1075">1075</a></div>
+        <div class="col-sm-2">Child<br><a href="tel:1098">1098</a></div>
+        <div class="col-sm-2">Mental Health<br><a href="tel:08046110007">08046110007</a></div>
+        <div class="col-sm-2">Senior Citizens<br><a href="tel:14567">14567</a></div>
+    </div>
+    <hr>
+    <!--info-->
+    <div class="tab-content">
+        <div id="aboutus" class="tab-pane active" style="background-color: white;">
+            <marquee width="100%" direction="left" height="30px" style="background-color: antiquewhite;">
+                This is a sample scrolling text that has scrolls in the upper direction.
+            </marquee>
+            <br>
+            <!--images-->
+            <div id="demo" class="carousel slide" data-ride="carousel">
+
+                <!-- Indicators -->
+                <ul class="carousel-indicators">
+                    <li data-target="#demo" data-slide-to="0" class="active"></li>
+                    <li data-target="#demo" data-slide-to="1"></li>
+                    <li data-target="#demo" data-slide-to="2"></li>
+                </ul>
+
+                <!-- The slideshow -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="xyz2.jpg" alt="Los Angeles">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="xyz3.jpg" alt="Chicago">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="xyz4.jpg" alt="New York">
+                    </div>
+                </div>
+
+                <!-- Left and right controls -->
+                <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-control-next" href="#demo" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
+            </div>
+            <hr>
+            <!--dos and donts-->
+            <div class="row">
+                <div class="col-md-6 left">
+                    <div class="centered">
+
+                        <h2>DOs
+                        </h2>
+                        <h4
+                            title="Staying hydrated is extremely important both before and after your vaccination. The most common side effects of vaccines include muscle pain, fatigue, headache, and fever. Being properly hydrated will not only prevent you from feeling sick but may also help to shorten the duration and intensity of side effects.">
+                            Drink a lot of water
+                        </h4>
+
+                        <h4 title="To avoid serious side effects, a well-balanced diet is essential. Super foods like green vegetables, turmeric, and garlic, that are high in nutrients and boost immunity, should be included in your diet. Seasonal fruits rich in Vitamin C can also aid in fighting the vaccine side effects.  
+                ">
+                            Eat a well-balanced diet
+
+                        </h4>
+                        <h4>Get at least 7 to 8 hours of sleep </h4>
+                        <h4>Do some light exercise/physical activity</h4>
+                        <h4>Continue with COVID-19 appropriate behaviour</h4>
+                    </div>
+                </div>
+
+                <div class="col-md-6 right">
+                    <div class="centered">
+
+                        <h2>DONT'S
+                        </h2>
+                        <h4>
+                            Avoid alcohol and tobacco
+                        </h4>
+                        <h4>
+                            Do not delay consulting a doctor if you experience COVID-19 symptoms even after vaccination
+                        </h4>
+                        <h4>Do not think that you are completely immune to COVID-19 after vaccination </h4>
+                        <h4>Avoid strenuous physical activity for at least 2-3 days post vaccination</h4>
+                        <h4>Do not miss other necessary vaccines</h4>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!--importance of vaccine-->
+        <div id="importance" class="tab-pane fade" style="background-color: white;">
+            <div class="a">
+
+                <h1>IMPORTANCE OF VACCINE</h1>
+                <ol>
+                    <li>Parents want to do everything possible to make sure their children are healthy and protected
+                        from
+                        preventable diseases. Vaccination is the best way to do that.</li>
+
+                    <li>Vaccination protects children from serious illness and complications of vaccine-preventable
+                        diseases
+                        which can include amputation of an arm or leg, hospitalization, pneumonia, hearing loss,
+                        convulsions,
+                        brain damage, and death.</li>
+
+                    <li>Vaccine-preventable diseases, such as measles, whooping cough, and influenza are still a threat.
+                        They
+                        continue to infect U.S. children, resulting in hospitalizations and deaths every year.</li>
+
+                    <li>Though vaccination has led to a dramatic decline in the number of U.S. cases of several
+                        infectious
+                        diseases, some, such as measles, are quite common in other countries and are brought to the U.S.
+                        by
+                        international travelers. If children are not vaccinated, they could easily get one of these
+                        diseases
+                        from a traveler or while traveling themselves.</li>
+
+                    <li>Outbreaks of preventable diseases occur when many parents decide not to vaccinate their
+                        children..
+                    <li>Vaccination is safe and effective. All vaccines undergo long and careful review by scientists,
+                        doctors,
+                        and the federal government to make sure they are safe.</li>
+
+                    <li>Organizations such as the American Academy of Pediatrics, the American Academy of Family
+                        Physicians,
+                        and
+                        the Centers for Disease Control and Prevention all strongly support protecting children with
+                        recommended
+                        vaccinations.</li>
+
+                    <li>Vaccination protects others you care about, including family members, friends, and grandparents.
+                    </li>
+
+                    <li>If children aren’t vaccinated, they can spread disease to other children who are too young to be
+                        vaccinated or to people with weakened immune systems, such as transplant recipients and people
+                        with
+                        cancer. This could result in long-term complications and even death for these vulnerable people.
+                    </li>
+
+                    <li>We all have a public health commitment to our communities to protect each other and each other’s
+                        children by vaccinating our own family members.</li>
+                    <h2>
+                        <dt>What are vaccines?</dt>
+                    </h2>
+                    <dd>A vaccine (or immunization) is a way to build your body’s natural immunity to a disease before
+                        you
+                        get
+                        sick. This keeps you from getting and spreading the disease.
+
+                        For most vaccines, a weakened form of the disease germ is injected into your body. This is
+                        usually
+                        done
+                        with a shot in the leg or arm. Your body detects the invading germs (antigens) and produces
+                        antibodies
+                        to fight them. Those antibodies then stay in your body for a long time. In many cases, they stay
+                        for
+                        the
+                        rest of your life. If you’re ever exposed to the disease again, your body will fight it off
+                        without
+                        you
+                        ever getting the disease.
+
+                        Some illnesses, like strains of cold viruses, are fairly mild. But some, like smallpox or polio,
+                        can
+                        cause life-altering changes. They can even result in death. That’s why preventing your body from
+                        contracting these illnesses is very important.</dd>
+                    <h2>
+                        <dt>How does immunity work?</dt>
+                    </h2>
+                    <dd>ur body builds a defense system to fight foreign germs that could make you sick or hurt you.
+                        It’s
+                        called
+                        your immune system. To build up your immune system, your body must be exposed to different
+                        germs.
+                        When
+                        your body is exposed to a germ for the first time, it produces antibodies to fight it. But that
+                        takes
+                        time and you usually get sick before the antibodies have built up. But once you have antibodies,
+                        they
+                        stay in your body. So the next time you’re exposed to that germ, the antibodies will attack it,
+                        and
+                        you
+                        won’t get sick.</dd>
+                    <h2>
+                        <dt></dt>
+                    </h2>
+                </ol>
+            </div>
+        </div>
+        <BR>
+
+        <!--agegrp-->
+        <div id="age" class=" tab-pane fade" style="background-color: white;">
+            <h2>Vaccines for different Age-groups Table</h2>
+
+            <table>
+                <tr style="background-color: rgb(53, 161, 165);">
+                    <th>VACCINE</th>
+                    <th>AGE-GROUP</th>
+                </tr>
+                <tr>
+                    <td>Chickenpox</td>
+                    <td>12 to 23 months</td>
+                </tr>
+                <tr>
+                    <td>Polio</td>
+                    <td>0-5 years</td>
+                </tr>
+                <tr>
+                    <td>Flu(Influenza)</td>
+                    <td>5 to 12 years</td>
+                </tr>
+                <tr>
+                    <td>Covid</td>
+                    <td>above 12 years</td>
+                </tr>
+                <tr>
+                    <td>Malaria</td>
+                    <td>21 to 30 years</td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <!--faqs-->
+    <div class="jumbotron text-center">
+        <h2>FAQ</h2>
+
+        <button class="faqs">Where can I get the vaccine from?
+        </button>
+        <div class="panel">
+            <ul>
+                <li>Vaccines are available from Government and Private Health Facilities as notified, known as COVID
+                    Vaccination Centres (CVCs).</li>
+            </ul>
+        </div>
+
+        <button class="faqs">How do I pre-register myself online for an appointment for vaccination?
+        </button>
+        <div class="panel">
+            <ul>
+                <li>Online registration and appointment can be done through Co-WIN portal</li>
+                <li>You will have to give some basic information about yourself and details of your photo identification
+                    card to get yourself registered online.
+                </li>
+                <li>From one mobile phone number, one can register 4 people, however, each person will need their own
+                    photo identification document.
+                </li>
+                <li>If Aadhar card is used as identification document, consent will be obtained and recorded.
+                </li>
+                <li>Through the portal, you can find out the list of available CVCs and dates and time of available
+                    vaccination slots, to book an appointment as per your choice. You will need an OTP verification
+                    prior to registration and a confirmation slip/token will be generated after registration. You will
+                    also get a confirmatory sms later.
+                </li>
+                <li>For all Private Hospitals, prior registration and appointment will be the only method of
+                    registration.
+                </li>
+                <li>For Government hospitals, a proportion of slots will be available for online registration and
+                    appointment, the rest will be kept for on site registration and vaccination.
+                </li>
+                <li>Appointments for any date for a Vaccination Center will be closed at 12:00 pm on the day prior to
+                    the date.
+                </li>
+            </ul>
+        </div>
+
+        <button class="faqs">If I cannot pre-register myself online, how do I register on the spot and get
+            vaccinated?</button>
+        <div class="panel">
+            <ul>
+                <li>Those who cannot get themselves registered online can contact their local Government health workers,
+                    who will help the beneficiaries to the Government CVC for on the spot registration, appointment,
+                    verification and vaccination on the same day. Please ask your nearest Government health care worker
+                    to guide you about the nearest Government CVC where COVID vaccination will be available and the days
+                    of the week when this will be available. You need to carry your mobile phone and a photo
+                    identification document to get yourself vaccinated. The workers in the Government CVC will help you
+                    to register on the spot, get appointment and get vaccinated on the same day. This option is
+                    available for people above the age of 45 only.</li>
+            </ul>
+        </div>
+        <button class="faqs">.Can a person get the COVID-19 vaccine without registration with Health
+            Department?</button>
+        <div class="panel">
+            <ul>
+                <li>No, the registration of beneficiary is mandatory for vaccination for COVID-19 vaccine. Once
+                    registered, notification and information about the vaccine session date and time will be shared with
+                    the beneficiary. There will be a provision for walk-in to vaccination centres but they too would
+                    need to register on site before vaccination. The walk-in option is available for people above the
+                    age of 45 only.
+                </li>
+            </ul>
+        </div>
+        <button class="faqs">What documents are required for registration of eligible beneficiary?
+        </button>
+        <div class="panel">
+            <p>Any of the below mentioned ID with Photo may be produced at the time of registration:</p>
+            <ul>
+                <li>Aadhaar Card</li>
+                <li>Driving License</li>
+                <li>Health Insurance Smart Card issued under the scheme of Ministry of Labour</li>
+                <li>Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA) Job Card</li>
+                <li>Official identity cards issued to MPs/MLAs/MLCs</li>
+                <li>PAN Card</li>
+                <li>Passbooks issued by Bank/Post Office</li>
+                <li>Passport</li>
+                <li>Pension Document</li>
+                <li>Service Identity Card issued to employees by Central/ State Govt./ Public Limited Companies</li>
+                <li>Voter ID</li>
+                <li>People with comorbidities will have to carry the certificate of comorbidities, in the format shared
+                    here by a registered medical practitioner.
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>vaccine 1</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+            </div>
+            <div class="col-sm-4">
+                <h3>vaccine 2</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+            </div>
+            <div class="col-sm-4">
+                <h3>vaccine 3</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+        }
+        var acc = document.getElementsByClassName("faqs");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+
+    </script>
+    <script type="text/javascript"
+        src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
