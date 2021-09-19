@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A clean and simple real-time vaccine tracker and appointment booking scheduler.">
+    <meta name="author" content="Ricky Bhatia">
+    <meta name="robots" content="index, follow" />
+    <title>CoWIN Vaccine Tracker</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+    <link rel="manifest" href="assets/img/site.webmanifest">
+    <meta property="og:url" content="https://co-win.herokuapp.com/">
+    <meta property="og:title" content="CoWIN Vaccine Tracker">
+    <meta property="og:description" content="A clean and simple real-time vaccine tracker and appointment booking scheduler.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css"/>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> 
+    
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    
+<div class="container">
+  <main>
+    <header class="p-3 mb-3 border-bottom">
+        <div class="dropdown text-end">
+            <div id="google_translate_element"></div>
+        </div>
+    </header>
+    <div class="alert alert-warning alert-dismissible fade show d-none" role="alert">
+      <h6 class="alert-heading">New Updates! (04-Jul-2021)</h6>
+      <hr>
+      <ul class="mb-0"><li>An audio alert will be played when new centers with 5 or more slots are opened.</li></ul>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div class="text-center">
+      <i class="bi bi-patch-plus-fill" style="font-size: 2rem; color: blue;"></i>
+      <h2>CoWIN Vaccine Tracker</h2>
+      <p class="lead">A clean and simple CoWIN vaccine tracker that shows available vaccine counts in your area. You can also book the appointment directly using the booking scheduler.</p>
+      
+    </div>
+
+    <div class="row g-5">
+
+      <div class="col-fluid">
+        <h4>Tracker</h4>
+        <p><small>Choose the options from below form and click <strong>Start Tracking</strong>. The web page will search for centers every <strong>10</strong> seconds and list the centers with available vaccines.</small></p>
+        <form class="needs-validation" novalidate>
+          <div class="row g-3">
+
+            <div class="col-md-4">
+              <label for="stateList" class="form-label">State</label>
+              <select class="form-select" id="stateList" onchange="getDistricts()" required>
+              </select>
+              <div class="invalid-feedback">
+                Please provide a valid State.
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="districtList" class="form-label">District</label>
+              <select class="form-select" id="districtList" required>
+              </select>
+              <div class="invalid-feedback">
+                Please provide a valid District.
+              </div>
+            </div>
+            <div class="col-md-2">
+                <label for="datePicker" class="form-label">Date</label>
+                <input  class="form-control" type="text" placeholder="Choose date" id="datePicker">
+                <div class="invalid-feedback">
+                    Please provide a valid Date.
+              </div>
+            </div>
+            <div class="col-md-2">
+                <label for="minSlots" class="form-label">Min Slots</label>
+                <input  class="form-control" type="number" value=1 id="minSlots" min=0>
+                <div class="invalid-feedback">
+                    Please enter a value greater than 0.
+              </div>
+            </div>
+            
+            <div class="col-md-3">
+              <label for="ageList" class="form-label">Age</label>
+              <select class="form-select" id="ageList" required>
+                <option value="0">0-5</option>
+                <option value="5">5-12</option>
+                <option value="12">12-17</option>
+                <option value="18">18-44</option>
+                <option value="45">45+</option>
+              </select>
+              <div class="invalid-feedback">
+                Please provide a valid age group.
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label for="vaccineList" class="form-label">Vaccine</label>
+              <select class="form-select" id="vaccineList" required>
+                <option value="ANY" selected>Any</option>
+                <option value="COVISHIELD">COVISHIELD</option>
+                <option value="COVAXIN">COVAXIN</option>
+                <option value="SPUTNIK V">SPUTNIK V</option>
+                <option value="SPUTNIK V">Chickenpox</option>
+                <option value="SPUTNIK V">Polio</option>
+                <option value="SPUTNIK V">Flu(Influenza)</option>
+                <option value="SPUTNIK V">Malaria</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="feeList" class="form-label">Fee Type</label>
+              <select class="form-select" id="feeList" required>
+                <option value="ANY">Any</option>
+                <option value="FREE">Free</option>
+                <option value="PAID">Paid</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label for="doseList" class="form-label">Dose</label>
+              <select class="form-select" id="doseList" required>
+                <option value="1">Dose 1</option>
+                <option value="2">Dose 2</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label for="pincodeList" class="form-label">Pincodes <span class="text-muted"><small>(Optional. Enter list of pincodes separated by comma)</small></label>
+              <input type="text" class="form-control" id="pincodeList" placeholder="" value="">
+            </div>
+            <div class="col-12">
+              <label for="centerNameList" class="form-label">Center Names <span class="text-muted"><small>(Optional. If you are looking for specific centers, then enter name here. You need not enter complete center name, just one main word is sufficient (ensure spelling is correct). You can also enter multiple center names separated by comma. Eg. apollo,reliance)</small></label>
+              <input type="text" class="form-control" id="centerNameList" placeholder="" value="">
+            </div>
+            <div class="col-12">
+              <label for="addressList" class="form-label">Place/Location Keywords <span class="text-muted"><small>(Optional. You can enter location keywords to filter centers in that area. These words are searched in <strong>center address</strong>, so ensure that the words are part of the address. Eg. borivali,malad)</small></label>
+              <input type="text" class="form-control" id="addressList" placeholder="" value="">
+            </div>
+            <div class="col-md-4">
+                <label for="refreshInterval" class="form-label">Auto-Refresh Interval <span class="text-muted"><small>(seconds)</small></label>
+                <input  class="form-control" type="number" value=5 id="refreshInterval" min=4>
+                <div class="invalid-feedback">
+                    Please enter a value greater than 4.
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" value="" id="audioAlertChk" checked>
+                  <label class="form-check-label" for="audioAlertChk">Enable Audio Alert
+                  <br/><span class="text-muted"><small>(If enabled then whenever a new center is opened with 5 or more slots, an audio alert will be played.)</small></span></label>
+                </div>
+            </div>
+            
+
+            <!--<div class="col-md-6">
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" value="" id="enableCenterTimes" onchange='handleCenterTimes(this);'>
+                  <label class="form-check-label" for="enableCenterTimes">Fetch past center posting times 
+                    <span class="spinner-border spinner-border-sm d-none" id="centerTimeSpinner" role="status" aria-hidden="true"> </span>
+                    <br/><span class="text-muted"><small>(Upto last 7 days. Could help identify a pattern of when centers open their slots.)</small></span></label>
+                </div>
+            </div>-->
+            <div class="d-grid gap-2 mx-auto">
+              <button type="button" id="searchOnceBtn" class="btn btn-success" onclick="findCenters()">Search Once</button>
+              <button type="button" id="startTrackingBtn" class="btn btn-primary" onclick="startTracking()">Start Tracking</button>
+              <button type="button" id="stopTrackingBtn" class="btn btn-danger d-none" onclick="stopTracking()">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+                Stop Tracking
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <hr class="my-4">
+        <form class="needs-validation" novalidate>
+            <h4>Booking Scheduler</h4>
+            <p><small>This section can help you book the vaccination appointment. Follow the below steps for booking the appointment.
+            <ul>
+            <li>Login here using registered mobile number, select the beneficiaries, and desired options using the above form.</li>
+            <li><strong>Automated Booking:</strong> Check the <u>Enable Booking Scheduler</u> checkbox and click <u>Start Booking</u>. The app will then look for appropriate centers (based on your choice of options above) for upto 15 minutes, and if it finds a suitable center then automatically book an appointment for you. If no center is found in the 15 minute duration, the process will time out and you will need to login again and repeat the steps.</li>
+            <li><strong>Manual Booking:</strong> Uncheck the <u>Enable Booking Scheduler</u> checkbox and click <u>Start Tracking</u>. You can then click "Book" on center of your choice shown in the search result table.</li></ul></small></p>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" value="" id="enableBooking">
+              <label class="form-check-label" for="enableBooking">Enable Booking Scheduler</label>
+            </div>
+            <div id="sendOTPdiv" class="input-group mb-3">
+              <span class="input-group-text">+91</span>
+              <input type="number" class="form-control" id="mobileNumber" placeholder="Mobile Number" aria-label="Mobile Number" aria-describedby="button-addon1">
+              <button class="btn btn-outline-secondary" type="button" onclick="sendOTP()" id="button-addon1">Send OTP</button>
+            </div>
+            
+            <div id="verifyOTPdiv" class="input-group mb-3 d-none">
+              <input type="number" class="form-control" id="otp" placeholder="Enter OTP" aria-label="Enter OTP" aria-describedby="button-addon2">
+              <button class="btn btn-outline-secondary" type="button" onclick="verifyOTP()" id="button-addon2">Verify OTP</button>
+            </div>
+            
+            <div id="benListdiv" class="mb-3 d-none">
+              <label for="beneficiariesList" class="form-label">Beneficiaries <span class="text-muted">(You can select multiple beneficiaries, but ensure they are in same age group)</span></label>
+              <select class="form-select" id="beneficiariesList" multiple>
+              </select>
+              <div class="invalid-feedback">
+                Please select at least one beneficiary
+              </div>
+            </div>
+            
+            <div class="d-grid gap-2 col-12 mx-auto">
+              <button type="button" id="startBookingBtn" class="btn btn-primary" disabled onclick="startBooking()">Start Booking</button>
+              <button type="button" id="stopBookingBtn" class="btn btn-danger d-none" onclick="stopBooking()">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+                Stop Booking
+              </button>
+            </div>
+            
+            <br/>
+            <div class="progress">
+              <div id="progressBar" class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+        </form>
+        <br/>
+        <div id="mainAlert" class="alert fade show d-none" role="alert">
+        </div>
+        <table class="table table-sm table-hover">
+          <caption>List of centers</caption>
+          <thead>
+            <tr>
+              <th scope="col">Pincode</th>
+              <th scope="col">Center</th>
+              <th scope="col">Dose1</th>
+              <th scope="col">Dose2</th>
+              <th scope="col">Age Group</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody id="centersRows">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    
+    <!--<div class="btn-group" role="group">
+      <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy</button>
+      <a role="button" href="https://github.com/ricky-bhatia/cowin-web/issues" target="_blank" class="btn btn-outline-secondary btn-sm">Issues</a>
+      <a role="button" href="https://forms.gle/WJD1ESv3agoYFzEz5" target="_blank" class="btn btn-secondary btn-sm">Feedback</a>
+      <a role="button" href="https://selfregistration.cowin.gov.in/" target="_blank" class="btn btn-outline-secondary btn-sm">Book on CoWIN</a>
+      <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#upcomingFeatures">Planned Features</button>
+    </div>-->
+    <ul class="list-inline">
+        <li class="list-inline-item"><a href="#privacyModal" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy</a></li>
+        <li class="list-inline-item"><a href="https://selfregistration.cowin.gov.in/" target="_blank">Book on CoWIN</a></li>
+    </ul>
+    
+    <br/>
+  </footer>
+    <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Privacy</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h6>Information Collection</h6>
+            <p><small>While using this site, none of the data provided by you is actually stored on the server or collected for any other purposes. All communication or information exchange is done directly with CoWIN APIs and requested information is displayed.</small></p>
+            <h6>Log Data</h6>
+            <p><small>None of user information is being knowingly logged by the code.</small></p>
+            <h6>Cookies</h6>
+            <p><small>There might be 1 cookie being used purely to keep a count of users visiting the site. This is only there to help me get some stats of usage of the site.</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="upcomingFeatures" tabindex="-1" aria-labelledby="upcomingFeaturesLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Planned Features</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <ul class="list-group">
+              <li class="list-group-item">Book an appointment by clicking link in the center list table. [DONE]</li>
+              <li class="list-group-item">Add a filter for minimum slot count (to filter out centers with cancelled slots) [DONE]</li>
+              <li class="list-group-item">List probable center slot posting timings.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="form-validation.js"></script><script src="app.js"></script> 
+    
+  </body>
+
+</html>
